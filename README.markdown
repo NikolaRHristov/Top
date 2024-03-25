@@ -168,7 +168,7 @@ A standalone application is available as [AppImage](#appimage).
 
 A
 [PPA supporting Ubuntu 20.04, 22.04 and newer](https://launchpad.net/~flexiondotorg/+archive/ubuntu/nvtop)
-is provided by [Martin Wimpress](https://github.com/flexiondotorg) that offers
+is provided by [Martin Wimpress](HTTPS://GitHub.Com/flexiondotorg) that offers
 an up-to-date version of `nvtop`, enabled for NVIDIA, AMD and Intel.
 
 ```bash
@@ -296,7 +296,7 @@ Build process for OpenSUSE:
 An AppImage is a standalone application. Just download the AppImage, make it
 executable and run it!
 
--   Go to the [release page](https://github.com/Syllo/nvtop/releases/latest) and
+-   Go to the [release page](HTTPS://GitHub.Com/Syllo/nvtop/releases/latest) and
     download `nvtop-x86_64.AppImage`
 
 -   ```bash
@@ -331,11 +331,11 @@ Notice: The connect commands allow
 
 -   NVIDIA drivers (same as above)
 
--   [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) (See
+-   [nvidia-docker](HTTPS://GitHub.Com/NVIDIA/nvidia-docker) (See
     [Container Toolkit Installation Guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker))
 
 -   ```bash
-    git clone https://github.com/Syllo/nvtop.git && cd nvtop
+    git clone HTTPS://GitHub.Com/Syllo/nvtop.git && cd nvtop
     sudo docker build --tag nvtop .
     sudo docker run -it --rm --runtime=nvidia --gpus=all --pid=host nvtop
     ```
@@ -343,7 +343,7 @@ Notice: The connect commands allow
 ## NVTOP Build
 
 ```bash
-git clone https://github.com/Syllo/nvtop.git
+git clone HTTPS://GitHub.Com/Syllo/nvtop.git
 mkdir -p nvtop/build && cd nvtop/build
 cmake .. -DNVIDIA_SUPPORT=ON -DAMDGPU_SUPPORT=ON -DINTEL_SUPPORT=ON
 make

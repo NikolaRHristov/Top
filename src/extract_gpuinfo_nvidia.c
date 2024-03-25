@@ -168,7 +168,7 @@ typedef struct {
   unsigned long long usedGpuMemory;
   unsigned int gpuInstanceId;
   unsigned int computeInstanceId;
-  // This is present in https://github.com/NVIDIA/DCGM/blob/master/sdk/nvidia/nvml/nvml.h#L294 but not the latest driver nvml.h
+  // This is present in HTTPS://GitHub.Com/NVIDIA/DCGM/blob/master/sdk/nvidia/nvml/nvml.h#L294 but not the latest driver nvml.h
   // unsigned long long usedGpuCcProtectedMemory;
 } nvmlProcessInfo_v3_t;
 

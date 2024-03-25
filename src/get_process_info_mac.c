@@ -124,7 +124,7 @@ bool get_process_info(pid_t pid, struct process_cpu_usage *usage) {
   nvtop_get_current_time(&usage->timestamp);
 
   // TODO: Should we implement this workaround?
-  // https://github.com/htop-dev/htop/blob/main/darwin/PlatformHelpers.c#L98
+  // HTTPS://GitHub.Com/htop-dev/htop/blob/main/darwin/PlatformHelpers.c#L98
   mach_timebase_info_data_t info;
   mach_timebase_info(&info);
   const double nanoseconds_per_tick = (double)info.numer / (double)info.denom;

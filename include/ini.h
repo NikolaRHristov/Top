@@ -7,7 +7,7 @@ Copyright (C) 2009-2020, Ben Hoyt
 inih is released under the New BSD license (see LICENSE.txt). Go to the project
 home page for more info:
 
-https://github.com/benhoyt/inih
+HTTPS://GitHub.Com/benhoyt/inih
 
 */
 
@@ -77,7 +77,7 @@ int ini_parse_string(const char* string, ini_handler handler, void* user);
 #endif
 
 /* Nonzero to allow a UTF-8 BOM sequence (0xEF 0xBB 0xBF) at the start of
-   the file. See https://github.com/benhoyt/inih/issues/21 */
+   the file. See HTTPS://GitHub.Com/benhoyt/inih/issues/21 */
 #ifndef INI_ALLOW_BOM
 #define INI_ALLOW_BOM 1
 #endif

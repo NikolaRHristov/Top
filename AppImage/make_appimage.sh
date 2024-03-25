@@ -18,7 +18,7 @@ install_nvtop_AppDir() {
 }
 
 get_linuxdeploy() {
-	wget -nc https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+	wget -nc HTTPS://GitHub.Com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
 	chmod u+x linuxdeploy-x86_64.AppImage
 	./linuxdeploy-x86_64.AppImage --appimage-extract
 }
