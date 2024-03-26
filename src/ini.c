@@ -7,7 +7,7 @@ Copyright (C) 2009-2020, Ben Hoyt
 inih is released under the New BSD license (see LICENSE.txt). Go to the project
 home page for more info:
 
-HTTPS://GitHub.Com/benhoyt/inih
+https://github.com/benhoyt/inih
 
 */
 

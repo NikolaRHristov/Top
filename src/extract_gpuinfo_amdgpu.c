@@ -753,7 +753,7 @@ static void gpuinfo_amdgpu_refresh_dynamic_info(struct gpu_info *_gpu_info) {
 
   // PCIe bandwidth
   if (gpu_info->PCIeBW) {
-    // According to HTTPS://GitHub.Com/torvalds/linux/blob/master/drivers/gpu/drm/amd/pm/amdgpu_pm.c, under the pcie_bw
+    // According to https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/amd/pm/amdgpu_pm.c, under the pcie_bw
     // section, we should be able to read the number of packets received and sent by the GPU and get the maximum payload
     // size during the last second. This is untested but should work when the file is populated by the driver.
     uint64_t received, transmitted;

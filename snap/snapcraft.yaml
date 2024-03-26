@@ -5,7 +5,7 @@ summary: "GPUs monitoring tool for AMD, Intel and NVIDIA"
 description: |
     Nvtop stands for Neat Videocard TOP, a (h)top like task monitor for AMD, Intel and NVIDIA GPUs. It can handle multiple GPUs and print information about them in a htop familiar way.
 license: GPL-3.0-or-later
-issues: HTTPS://GitHub.Com/Syllo/nvtop/issues
+issues: https://github.com/Syllo/nvtop/issues
 icon: desktop/nvtop.svg
 grade: stable
 confinement: strict
