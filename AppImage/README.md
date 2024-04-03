@@ -1,6 +1,6 @@
 # Build the AppImage
 
-```bash
+```sh
 podman pull ubuntu:18.04
 podman run --interactive --tty --rm --volume $PWD:/nvtop ubuntu:18.04
 cd nvtop

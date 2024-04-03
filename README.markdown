@@ -60,13 +60,13 @@ preferences will be loaded the next time you run `nvtop`.
 
 NVTOP comes with a manpage!
 
-```bash
+```sh
 man nvtop
 ```
 
 For quick command line arguments help
 
-```bash
+```sh
 nvtop -h
 nvtop --help
 ```
@@ -160,7 +160,7 @@ A standalone application is available as [AppImage](#appimage).
 
 #### Ubuntu Impish (21.10), Debian buster (stable) and more recent
 
--   ```bash
+-   ```sh
     sudo apt install nvtop
     ```
 
@@ -171,7 +171,7 @@ A
 is provided by [Martin Wimpress](https://github.com/flexiondotorg) that offers
 an up-to-date version of `nvtop`, enabled for NVIDIA, AMD and Intel.
 
-```bash
+```sh
 sudo add-apt-repository ppa:flexiondotorg/nvtop
 sudo apt install nvtop
 ```
@@ -180,7 +180,7 @@ sudo apt install nvtop
 
 -   AMD and Intel Dependencies
 
-    ```bash
+    ```sh
     sudo apt install libdrm-dev libsystemd-dev
     # Ubuntu 18.04
     sudo apt install libudev-dev
@@ -198,7 +198,7 @@ sudo apt install nvtop
 -   NVTOP Dependencies
 -   CMake, ncurses and Git
 
-```bash
+```sh
 sudo apt install cmake libncurses5-dev libncursesw5-dev git
 ```
 
@@ -211,20 +211,20 @@ A standalone application is available as [AppImage](#appimage).
 
 #### Fedora 36 and newer
 
--   ```bash
+-   ```sh
     sudo dnf install nvtop
     ```
 
 #### Red Hat Enterprise Linux 8 and 9
 
--   ```bash
+-   ```sh
     sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %{rhel}).noarch.rpm
     sudo dnf install nvtop
     ```
 
 #### CentOS Stream, Rocky Linux, AlmaLinux
 
--   ```bash
+-   ```sh
     sudo dnf install -y epel-release
     sudo dnf install nvtop
     ```
@@ -233,7 +233,7 @@ A standalone application is available as [AppImage](#appimage).
 
 -   AMD and Intel Dependencies
 
-    ```bash
+    ```sh
     sudo dnf install libdrm-devel systemd-devel
     ```
 
@@ -245,7 +245,7 @@ A standalone application is available as [AppImage](#appimage).
 -   NVTOP Dependencies
 -   CMake, ncurses, C++ and Git
 
-```bash
+```sh
 sudo dnf install cmake ncurses-devel git gcc-c++
 ```
 
@@ -260,7 +260,7 @@ Build process for OpenSUSE:
 
 -   AMD Dependecy
 
-    ```bash
+    ```sh
     sudo zypper install libdrm-devel
     ```
 
@@ -272,7 +272,7 @@ Build process for OpenSUSE:
 -   NVTOP Dependencies
 
     -   CMake, ncurses and Git
-        ```bash
+        ```sh
         sudo zypper install cmake ncurses-devel git
         ```
 
@@ -281,13 +281,13 @@ Build process for OpenSUSE:
 
 ### Arch Linux
 
--   ```bash
+-   ```sh
     sudo pacman -S nvtop
     ```
 
 ### Gentoo
 
--   ```bash
+-   ```sh
     sudo layman -a guru && sudo emerge -av nvtop
     ```
 
@@ -299,7 +299,7 @@ executable and run it!
 -   Go to the [release page](https://github.com/Syllo/nvtop/releases/latest) and
     download `nvtop-x86_64.AppImage`
 
--   ```bash
+-   ```sh
     # Go to the download location ** The path may differ on your system **
     cd $HOME/Downloads
     # Make the AppImage executable
@@ -313,7 +313,7 @@ If you are curious how that works, please visit the
 
 ### Snap
 
--   ```bash
+-   ```sh
     snap install nvtop
     # Add the capability to kill processes inside nvtop
     snap connect nvtop:process-control
@@ -334,7 +334,7 @@ Notice: The connect commands allow
 -   [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) (See
     [Container Toolkit Installation Guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker))
 
--   ```bash
+-   ```sh
     git clone https://github.com/Syllo/nvtop.git && cd nvtop
     sudo docker build --tag nvtop .
     sudo docker run -it --rm --runtime=nvidia --gpus=all --pid=host nvtop
@@ -342,7 +342,7 @@ Notice: The connect commands allow
 
 ## NVTOP Build
 
-```bash
+```sh
 git clone https://github.com/Syllo/nvtop.git
 mkdir -p nvtop/build && cd nvtop/build
 cmake .. -DNVIDIA_SUPPORT=ON -DAMDGPU_SUPPORT=ON -DINTEL_SUPPORT=ON
