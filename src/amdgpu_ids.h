@@ -13,9 +13,9 @@
 #define AMDGPU_IDS_H
 
 struct amdgpu_id_struct {
-    uint32_t asic_id;
-    uint32_t pci_rev_id;
-    const char *name;
+  uint32_t asic_id;
+  uint32_t pci_rev_id;
+  const char *name;
 };
 
 static struct amdgpu_id_struct amdgpu_ids[] = {

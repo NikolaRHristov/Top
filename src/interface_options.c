@@ -44,7 +44,7 @@ static const char *default_config_path(void) {
     // XDG config dir not set, default to $HOME/.config
     xdg_config_dir = getenv("HOME");
     if (!xdg_config_dir)
-            return NULL;
+      return NULL;
     conf_path_length = sizeof(config_conf_path);
   }
   size_t xdg_path_length = strlen(xdg_config_dir);
@@ -141,8 +141,8 @@ void alloc_interface_options_internals(char *config_location, unsigned num_devic
     if (default_path) {
       options->config_file_location = malloc(strlen(default_path) + 1);
       if (!options->config_file_location) {
-	perror("Cannot allocate memory: ");
-	exit(EXIT_FAILURE);
+        perror("Cannot allocate memory: ");
+        exit(EXIT_FAILURE);
       }
       strcpy(options->config_file_location, default_path);
     }

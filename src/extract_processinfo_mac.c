@@ -20,17 +20,14 @@
 
 #include "nvtop/extract_processinfo_fdinfo.h"
 
-void processinfo_drop_callback(const struct gpu_info *info) {
-  (void) info;
-}
+void processinfo_drop_callback(const struct gpu_info *info) { (void)info; }
 
 void processinfo_register_fdinfo_callback(processinfo_fdinfo_callback callback, struct gpu_info *info) {
-  (void) callback;
-  (void) info;
+  (void)callback;
+  (void)info;
 }
 
-void processinfo_sweep_fdinfos(void) {
-}
+void processinfo_sweep_fdinfos(void) {}
 
 void processinfo_enable_disable_callback_for(const struct gpu_info *info, bool enable) {
   (void)info;

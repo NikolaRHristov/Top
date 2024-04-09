@@ -4,7 +4,6 @@
  * MIT License.
  */
 
-
 #include <assert.h>
 #include <ctype.h>
 #include <dirent.h>
@@ -25,19 +24,18 @@
 
 const char *amdgpu_parse_marketing_name(struct amdgpu_gpu_info *info);
 
-const char * amdgpu_parse_marketing_name(struct amdgpu_gpu_info *info)
-{
-    int i;
-    int ntypes = sizeof(amdgpu_ids) / sizeof(amdgpu_ids[0]);
+const char *amdgpu_parse_marketing_name(struct amdgpu_gpu_info *info) {
+  int i;
+  int ntypes = sizeof(amdgpu_ids) / sizeof(amdgpu_ids[0]);
 
-    if (!info)
-        return NULL;
-
-    for (i = 0; i < ntypes; i++) {
-        if (info->asic_id == amdgpu_ids[i].asic_id && info->pci_rev_id == amdgpu_ids[i].pci_rev_id) {
-            return amdgpu_ids[i].name;
-        }
-    }
-
+  if (!info)
     return NULL;
+
+  for (i = 0; i < ntypes; i++) {
+    if (info->asic_id == amdgpu_ids[i].asic_id && info->pci_rev_id == amdgpu_ids[i].pci_rev_id) {
+      return amdgpu_ids[i].name;
+    }
+  }
+
+  return NULL;
 }

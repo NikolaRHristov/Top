@@ -204,7 +204,8 @@ TEST(InterfaceLayout, LayoutSelection_test_fail_case1) { test_with_terminal_size
 
 TEST(InterfaceLayout, CheckManyTermSize) {
   const std::array<unsigned, 8> dev_count_to_test = {0, 1, 2, 3, 6, 16, 32, 64};
-  const std::map<unsigned, unsigned> extra_increment = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {6, 4}, {16, 6}, {32, 8}, {64, 17}};
+  const std::map<unsigned, unsigned> extra_increment = {{0, 0}, {1, 0},  {2, 0},  {3, 0},
+                                                        {6, 4}, {16, 6}, {32, 8}, {64, 17}};
   for (unsigned dev_count : dev_count_to_test) {
     for (unsigned screen_rows = 1; screen_rows < 2048; screen_rows += 1 + extra_increment.at(dev_count)) {
       for (unsigned screen_cols = 1; screen_cols < 2048; screen_cols += 1 + extra_increment.at(dev_count)) {

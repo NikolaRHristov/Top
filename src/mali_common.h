@@ -42,9 +42,9 @@ struct drmFuncTable {
 };
 
 enum mali_version {
-	MALI_PANFROST,
-	MALI_PANTHOR,
-	MALI_VERSIONS,
+  MALI_PANFROST,
+  MALI_PANTHOR,
+  MALI_VERSIONS,
 };
 
 struct mali_process_info_cache;
@@ -64,7 +64,7 @@ struct gpu_info_mali {
   struct gpu_info base;
   int fd;
 
-   // Cached processes info
+  // Cached processes info
   struct mali_process_info_cache *last_update_process_cache;
   struct mali_process_info_cache *current_update_process_cache;
 
@@ -86,9 +86,8 @@ struct mali_gpu_state {
   char *local_error_string;
 };
 
-typedef void (*check_fdinfo_keys)(bool *is_engine, bool *is_cycles,
-				  bool *is_maxfreq, bool *is_curfreq,
-				  bool *is_resident, char *key);
+typedef void (*check_fdinfo_keys)(bool *is_engine, bool *is_cycles, bool *is_maxfreq, bool *is_curfreq,
+                                  bool *is_resident, char *key);
 
 struct fdinfo_data {
   uint64_t total_cycles;
@@ -109,31 +108,18 @@ uint64_t parse_memory_multiplier(const char *str);
 bool mali_init_drm_funcs(struct drmFuncTable *drmFuncs, struct mali_gpu_state *state);
 void mali_deinit_drm(struct mali_gpu_state *state);
 void mali_shutdown_common(struct mali_gpu_state *state, struct drmFuncTable *funcs);
-const char *mali_common_last_error_string(struct mali_gpu_state *state,
-					  const char *drivername,
-					  char error_str[]);
-bool mali_common_get_device_handles(struct mali_gpu_state *state,
-				    struct drmFuncTable *funcs,
-				    struct gpu_vendor *vendor,
-				    processinfo_fdinfo_callback callback,
-				    struct list_head *devices, unsigned *count,
-				    bool (*handle_model) (struct gpu_info_mali *),
-				    enum mali_version version);
-void mali_common_refresh_dynamic_info(struct gpuinfo_dynamic_info *dynamic_info,
-				      struct mali_gpu_state *state,
-				      const char *meminfo_total,
-				      const char *meminfo_available);
+const char *mali_common_last_error_string(struct mali_gpu_state *state, const char *drivername, char error_str[]);
+bool mali_common_get_device_handles(struct mali_gpu_state *state, struct drmFuncTable *funcs, struct gpu_vendor *vendor,
+                                    processinfo_fdinfo_callback callback, struct list_head *devices, unsigned *count,
+                                    bool (*handle_model)(struct gpu_info_mali *), enum mali_version version);
+void mali_common_refresh_dynamic_info(struct gpuinfo_dynamic_info *dynamic_info, struct mali_gpu_state *state,
+                                      const char *meminfo_total, const char *meminfo_available);
 void mali_common_get_running_processes(struct gpu_info *_gpu_info, enum mali_version version);
 
-void mali_common_parse_fdinfo_handle_cache(struct gpu_info_mali *gpu_info,
-					   struct gpu_process *process_info,
-					   nvtop_time current_time,
-					   uint64_t total_cycles,
-					   unsigned cid,
-					   bool engine_count);
+void mali_common_parse_fdinfo_handle_cache(struct gpu_info_mali *gpu_info, struct gpu_process *process_info,
+                                           nvtop_time current_time, uint64_t total_cycles, unsigned cid,
+                                           bool engine_count);
 
-bool mali_common_parse_drm_fdinfo(struct gpu_info *info, FILE *fdinfo_file,
-				  struct gpu_process *process_info,
-				  struct gpuinfo_dynamic_info *dynamic_info,
-				  check_fdinfo_keys match_keys,
-				  struct fdinfo_data *fid);
+bool mali_common_parse_drm_fdinfo(struct gpu_info *info, FILE *fdinfo_file, struct gpu_process *process_info,
+                                  struct gpuinfo_dynamic_info *dynamic_info, check_fdinfo_keys match_keys,
+                                  struct fdinfo_data *fid);

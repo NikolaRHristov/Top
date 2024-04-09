@@ -37,7 +37,7 @@
 #include <xf86drm.h>
 
 // extern
-const char * msm_parse_marketing_name(uint64_t gpu_id);
+const char *msm_parse_marketing_name(uint64_t gpu_id);
 
 #define HASH_FIND_CLIENT(head, key_ptr, out_ptr) HASH_FIND(hh, head, key_ptr, sizeof(unsigned), out_ptr)
 #define HASH_ADD_CLIENT(head, in_ptr) HASH_ADD(hh, head, client_id, sizeof(unsigned), in_ptr)
@@ -46,10 +46,7 @@ const char * msm_parse_marketing_name(uint64_t gpu_id);
 #define RESET_MSM_CACHE(cachePtr, field) INVALIDATE_VALUE(cachePtr, field, msm_cache_)
 #define MSM_CACHE_FIELD_VALID(cachePtr, field) VALUE_IS_VALID(cachePtr, field, msm_cache_)
 
-enum intel_process_info_cache_valid {
-  msm_cache_engine_render_valid = 0,
-  msm_cache_process_info_cache_valid_count
-};
+enum intel_process_info_cache_valid { msm_cache_engine_render_valid = 0, msm_cache_process_info_cache_valid_count };
 
 struct __attribute__((__packed__)) unique_cache_id {
   unsigned client_id;
@@ -95,7 +92,7 @@ unsigned msm_gpu_count;
 static struct gpu_info_msm *gpu_infos;
 
 static void *libdrm_handle;
-static FILE* meminfo_file = NULL;
+static FILE *meminfo_file = NULL;
 
 static int last_libdrm_return_status = 0;
 static char didnt_call_gpuinfo_init[] = "uninitialized";
@@ -254,14 +251,11 @@ static const char *gpuinfo_msm_last_error_string(void) {
 static uint64_t parse_memory_multiplier(const char *str) {
   if (strcmp(str, " B") == 0) {
     return 1;
-  }
-  else if (strcmp(str, " KiB") == 0 || strcmp(str, " kB") == 0) {
+  } else if (strcmp(str, " KiB") == 0 || strcmp(str, " kB") == 0) {
     return 1024;
-  }
-  else if (strcmp(str, " MiB") == 0) {
+  } else if (strcmp(str, " MiB") == 0) {
     return 1024 * 1024;
-  }
-  else if (strcmp(str, " GiB") == 0) {
+  } else if (strcmp(str, " GiB") == 0) {
     return 1024 * 1024 * 1024;
   }
 
@@ -314,8 +308,7 @@ static bool parse_drm_fdinfo_msm(struct gpu_info *info, FILE *fdinfo_file, struc
         if (is_engine) {
           SET_GPUINFO_PROCESS(process_info, gfx_engine_used, time_spent);
         }
-      }
-      else if (is_resident) {
+      } else if (is_resident) {
         uint64_t mem_int;
         char *endptr;
 
@@ -447,8 +440,8 @@ static bool gpuinfo_msm_get_device_handles(struct list_head *devices, unsigned *
 
 static int gpuinfo_msm_query_param(int gpu, uint32_t param, uint64_t *value) {
   struct drm_msm_param req = {
-    .pipe = MSM_PIPE_3D0, // Only the 3D pipe.
-    .param = param,
+      .pipe = MSM_PIPE_3D0, // Only the 3D pipe.
+      .param = param,
   };
 
   int ret = _drmCommandWriteRead(gpu, DRM_MSM_GET_PARAM, &req, sizeof(req));
@@ -471,7 +464,7 @@ void gpuinfo_msm_populate_static_info(struct gpu_info *_gpu_info) {
 
   uint64_t gpuid;
   if (gpuinfo_msm_query_param(gpu_info->fd, MSM_PARAM_CHIP_ID, &gpuid) == 0) {
-    const char* name = msm_parse_marketing_name(gpuid);
+    const char *name = msm_parse_marketing_name(gpuid);
     if (!name) {
       // Try again ignoring speed-bin in the upper bits.
       name = msm_parse_marketing_name(gpuid & 0x0000ffffffff);
@@ -479,14 +472,12 @@ void gpuinfo_msm_populate_static_info(struct gpu_info *_gpu_info) {
 
     if (name) {
       strncpy(static_info->device_name, name, sizeof(static_info->device_name));
-    }
-    else {
+    } else {
       snprintf(static_info->device_name, sizeof(static_info->device_name), "Unknown Adreno %lx", gpuid);
     }
     SET_VALID(gpuinfo_device_name_valid, static_info->valid);
   }
 }
-
 
 static const char meminfo_total[] = "MemTotal";
 static const char meminfo_available[] = "MemAvailable";
@@ -544,8 +535,7 @@ void gpuinfo_msm_refresh_dynamic_info(struct gpu_info *_gpu_info) {
       mem_int *= parse_memory_multiplier(endptr);
       if (is_total) {
         mem_total = mem_int;
-      }
-      else if (is_available) {
+      } else if (is_available) {
         mem_available = mem_int;
       }
       ++keys_acquired;

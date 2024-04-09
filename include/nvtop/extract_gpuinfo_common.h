@@ -127,7 +127,7 @@ struct gpuinfo_dynamic_info {
   unsigned int gpu_temp;            // GPU temperature °celsius
   unsigned int power_draw;          // Power usage in milliwatts
   unsigned int power_draw_max;      // Max power usage in milliwatts
-  bool multi_instance_mode;          // True if the GPU is in multi-instance mode
+  bool multi_instance_mode;         // True if the GPU is in multi-instance mode
   unsigned char valid[(gpuinfo_dynamic_info_count + CHAR_BIT - 1) / CHAR_BIT];
 };
 

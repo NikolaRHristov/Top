@@ -17,9 +17,9 @@
  *
  */
 
-#include <unistd.h>
 #include "nvtop/interface_internal_common.h"
 #include "panthor_utils.h"
+#include <unistd.h>
 
 /**
  * struct panthor_model - GPU model description
@@ -40,21 +40,16 @@ struct panthor_model {
  * by a combination of the major architecture version and the major product
  * version.
  */
-#define GPU_MODEL(_name, _arch_major, _product_major)	\
-  {							\
-    .name = #_name,					\
-      .arch_major = _arch_major,			\
-      .product_major = _product_major,			\
-      }
+#define GPU_MODEL(_name, _arch_major, _product_major)                                                                  \
+  { .name = #_name, .arch_major = _arch_major, .product_major = _product_major, }
 
 static const struct panthor_model gpu_models[] = {
-  GPU_MODEL(g610, 10, 7),
-  GPU_MODEL(g310, 10, 4),
-  {0},
+    GPU_MODEL(g610, 10, 7),
+    GPU_MODEL(g310, 10, 4),
+    {0},
 };
 
-const char * panthor_device_name(uint32_t gpu_id)
-{
+const char *panthor_device_name(uint32_t gpu_id) {
   uint32_t arch_major, product_major;
   const struct panthor_model *model;
 
@@ -62,8 +57,7 @@ const char * panthor_device_name(uint32_t gpu_id)
   product_major = (gpu_id >> 16) & 0xf;
 
   for (model = gpu_models; model->name; model++) {
-    if (model->arch_major == arch_major &&
-	model->product_major == product_major)
+    if (model->arch_major == arch_major && model->product_major == product_major)
       return model->name;
   }
 

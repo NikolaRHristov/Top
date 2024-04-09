@@ -19,4 +19,4 @@
 
 #include <stdint.h>
 
-const char * panthor_device_name(uint32_t gpu_id);
+const char *panthor_device_name(uint32_t gpu_id);

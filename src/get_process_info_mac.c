@@ -22,12 +22,12 @@
 #include "nvtop/get_process_info.h"
 
 #include <libproc.h>
-#include <sys/sysctl.h>
-#include <pwd.h>
 #include <mach/mach_time.h>
+#include <pwd.h>
+#include <sys/sysctl.h>
 
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
 void get_username_from_pid(pid_t pid, char **buffer) {
   struct proc_bsdshortinfo proc;
@@ -50,7 +50,8 @@ error:
 }
 
 void get_command_from_pid(pid_t pid, char **buffer) {
-  // See https://chromium.googlesource.com/crashpad/crashpad/+/360e441c53ab4191a6fd2472cc57c3343a2f6944/util/posix/process_util_mac.cc
+  // See
+  // https://chromium.googlesource.com/crashpad/crashpad/+/360e441c53ab4191a6fd2472cc57c3343a2f6944/util/posix/process_util_mac.cc
   size_t argmax;
   size_t argmax_estimate;
   char *procargs = NULL;
@@ -93,7 +94,7 @@ void get_command_from_pid(pid_t pid, char **buffer) {
   if (args_size == 0) {
     goto error_free_procargs;
   }
-  char* args = malloc(args_size);
+  char *args = malloc(args_size);
   *buffer = args;
 
   i = argv0;

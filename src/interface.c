@@ -43,8 +43,8 @@
 #include <unistd.h>
 
 static unsigned int sizeof_device_field[device_field_count] = {
-    [device_name] = 11,  [device_fan_speed] = 8, [device_temperature] = 10,
-    [device_power] = 15, [device_clock] = 11,    [device_pcie] = 46,
+    [device_name] = 11,       [device_fan_speed] = 8,   [device_temperature] = 10,
+    [device_power] = 15,      [device_clock] = 11,      [device_pcie] = 46,
     [device_shadercores] = 7, [device_l2features] = 11, [device_execengines] = 11,
 };
 
@@ -160,18 +160,16 @@ static void alloc_device_window(unsigned int start_row, unsigned int start_col, 
   dwin->dec_was_visible = false;
 
   // Line 4 = Number of shading cores | L2 Features
-  dwin->shader_cores =
-    newwin(1, sizeof_device_field[device_shadercores], start_row + 3, start_col);
+  dwin->shader_cores = newwin(1, sizeof_device_field[device_shadercores], start_row + 3, start_col);
   if (dwin->shader_cores == NULL)
     goto alloc_error;
-  dwin->l2_cache_size =
-    newwin(1, sizeof_device_field[device_l2features], start_row + 3, start_col + spacer +
-           sizeof_device_field[device_shadercores]);
+  dwin->l2_cache_size = newwin(1, sizeof_device_field[device_l2features], start_row + 3,
+                               start_col + spacer + sizeof_device_field[device_shadercores]);
   if (dwin->l2_cache_size == NULL)
     goto alloc_error;
   dwin->exec_engines =
-    newwin(1, sizeof_device_field[device_execengines], start_row + 3, start_col + spacer * 2 +
-           sizeof_device_field[device_shadercores] + sizeof_device_field[device_l2features]);
+      newwin(1, sizeof_device_field[device_execengines], start_row + 3,
+             start_col + spacer * 2 + sizeof_device_field[device_shadercores] + sizeof_device_field[device_l2features]);
   if (dwin->exec_engines == NULL)
     goto alloc_error;
 
@@ -359,9 +357,8 @@ static void initialize_all_windows(struct nvtop_interface *dwin) {
   struct window_position setup_position;
 
   compute_sizes_from_layout(devices_count, dwin->options.has_gpu_info_bar ? 4 : 3, device_length(), rows - 1, cols,
-                            dwin->options.gpu_specific_opts, dwin->options.process_fields_displayed,
-                            device_positions, &dwin->num_plots, plot_positions,
-                            map_device_to_plot, &process_position, &setup_position);
+                            dwin->options.gpu_specific_opts, dwin->options.process_fields_displayed, device_positions,
+                            &dwin->num_plots, plot_positions, map_device_to_plot, &process_position, &setup_position);
 
   alloc_plot_window(devices_count, plot_positions, map_device_to_plot, dwin);
 
@@ -849,7 +846,7 @@ typedef struct {
   struct gpuid_and_process {
     unsigned gpu_id;
     struct gpu_process *process;
-  } * processes;
+  } *processes;
 } all_processes;
 
 static all_processes all_processes_array(struct list_head *devices) {

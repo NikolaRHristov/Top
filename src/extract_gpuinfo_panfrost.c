@@ -28,9 +28,9 @@
 #include "nvtop/extract_processinfo_fdinfo.h"
 #include "nvtop/time.h"
 
+#include "mali_common.h"
 #include "panfrost_drm.h"
 #include "panfrost_utils.h"
-#include "mali_common.h"
 
 static bool gpuinfo_panfrost_init(void);
 static void gpuinfo_panfrost_shutdown(void);
@@ -55,11 +55,11 @@ static struct gpu_vendor gpu_vendor_panfrost = {
 static struct drmFuncTable drmFuncs;
 static struct mali_gpu_state mali_state;
 
-__attribute__((constructor)) static void init_extract_gpuinfo_panfrost(void) { register_gpu_vendor(&gpu_vendor_panfrost); }
-
-bool gpuinfo_panfrost_init(void) {
-  return mali_init_drm_funcs(&drmFuncs, &mali_state);
+__attribute__((constructor)) static void init_extract_gpuinfo_panfrost(void) {
+  register_gpu_vendor(&gpu_vendor_panfrost);
 }
+
+bool gpuinfo_panfrost_init(void) { return mali_init_drm_funcs(&drmFuncs, &mali_state); }
 
 void gpuinfo_panfrost_shutdown(void) {
   for (unsigned i = 0; i < mali_state.mali_gpu_count; ++i) {
@@ -67,18 +67,17 @@ void gpuinfo_panfrost_shutdown(void) {
     char debugfs_profile_file[256] = {0};
     FILE *debugfs_profiling;
 
-    snprintf(debugfs_profile_file, sizeof(debugfs_profile_file),
-             "/sys/kernel/debug/dri/%d/profile", prof_info->minor);
+    snprintf(debugfs_profile_file, sizeof(debugfs_profile_file), "/sys/kernel/debug/dri/%d/profile", prof_info->minor);
     debugfs_profiling = fopen(debugfs_profile_file, "w");
     if (debugfs_profiling == NULL) {
-            fprintf(stderr, "Panfrost's profile parameter sysfs hook seems gone\n");
-            continue;
+      fprintf(stderr, "Panfrost's profile parameter sysfs hook seems gone\n");
+      continue;
     }
 
     char buf = prof_info->original_profiling_state ? '1' : '0';
     size_t size = fwrite(&buf, sizeof(char), 1, debugfs_profiling);
     if (!size)
-            fprintf(stderr, "restoring debugfs state didn't work\n");
+      fprintf(stderr, "restoring debugfs state didn't work\n");
     fclose(debugfs_profiling);
   }
 
@@ -88,15 +87,11 @@ void gpuinfo_panfrost_shutdown(void) {
 static const char *gpuinfo_panfrost_last_error_string(void) {
   static char driver_msg[MAX_ERR_STRING_LEN] = {0};
 
-  return mali_common_last_error_string(&mali_state,
-                                       gpu_vendor_panfrost.name,
-                                       driver_msg);
+  return mali_common_last_error_string(&mali_state, gpu_vendor_panfrost.name, driver_msg);
 }
 
-static void panfrost_check_fdinfo_keys (bool *is_engine, bool *is_cycles,
-                                        bool *is_maxfreq, bool *is_curfreq,
-                                        bool *is_resident, char *key)
-{
+static void panfrost_check_fdinfo_keys(bool *is_engine, bool *is_cycles, bool *is_maxfreq, bool *is_curfreq,
+                                       bool *is_resident, char *key) {
   static const char drm_panfrost_engine_vtx[] = "drm-engine-vertex-tiler";
   static const char drm_panfrost_engine_frg[] = "drm-engine-fragment";
   static const char drm_panfrost_cycles_vtx[] = "drm-cycles-vertex-tiler";
@@ -123,12 +118,11 @@ static bool parse_drm_fdinfo_panfrost(struct gpu_info *info, FILE *fdinfo_file, 
   nvtop_time current_time;
   nvtop_get_current_time(&current_time);
 
-  if (!mali_common_parse_drm_fdinfo(info, fdinfo_file, process_info, dynamic_info,
-                                    panfrost_check_fdinfo_keys, &res))
+  if (!mali_common_parse_drm_fdinfo(info, fdinfo_file, process_info, dynamic_info, panfrost_check_fdinfo_keys, &res))
     return false;
 
-  mali_common_parse_fdinfo_handle_cache(gpu_info, process_info, current_time, res.total_cycles,
-					res.cid, res.engine_count >= 1 ? true : false);
+  mali_common_parse_fdinfo_handle_cache(gpu_info, process_info, current_time, res.total_cycles, res.cid,
+                                        res.engine_count >= 1 ? true : false);
 
   return true;
 }
@@ -145,8 +139,7 @@ static bool panfrost_open_sysfs_profile(struct gpu_info_mali *gpu_info) {
 
   fstat(gpu_info->fd, &filebuf);
   prof_info->minor = minor(filebuf.st_rdev);
-  snprintf(debugfs_profile_file, sizeof(debugfs_profile_file),
-           "/sys/kernel/debug/dri/%d/profile", prof_info->minor);
+  snprintf(debugfs_profile_file, sizeof(debugfs_profile_file), "/sys/kernel/debug/dri/%d/profile", prof_info->minor);
 
   debugfs_profiling = fopen(debugfs_profile_file, "r");
   if (debugfs_profiling == NULL) {
@@ -184,15 +177,14 @@ file_error:
 }
 
 static bool gpuinfo_panfrost_get_device_handles(struct list_head *devices, unsigned *count) {
-        return mali_common_get_device_handles(&mali_state, &drmFuncs, &gpu_vendor_panfrost,
-                                              parse_drm_fdinfo_panfrost, devices, count,
-                                              panfrost_open_sysfs_profile, MALI_PANFROST);
+  return mali_common_get_device_handles(&mali_state, &drmFuncs, &gpu_vendor_panfrost, parse_drm_fdinfo_panfrost,
+                                        devices, count, panfrost_open_sysfs_profile, MALI_PANFROST);
 }
 
 static int gpuinfo_panfrost_query_param(int gpu, uint32_t param, uint64_t *value) {
 
   struct drm_panfrost_get_param req = {
-    .param = param,
+      .param = param,
   };
 
   int ret = drmFuncs.drmCommandWriteRead(gpu, DRM_PANFROST_GET_PARAM, &req, sizeof(req));
@@ -215,11 +207,10 @@ void gpuinfo_panfrost_populate_static_info(struct gpu_info *_gpu_info) {
 
   uint64_t gpuid;
   if (gpuinfo_panfrost_query_param(gpu_info->fd, DRM_PANFROST_PARAM_GPU_PROD_ID, &gpuid) == 0) {
-    const char* name = panfrost_parse_marketing_name(gpuid);
+    const char *name = panfrost_parse_marketing_name(gpuid);
     if (name) {
       strncpy(static_info->device_name, name, sizeof(static_info->device_name));
-    }
-    else {
+    } else {
       snprintf(static_info->device_name, sizeof(static_info->device_name), "Unknown Mali %lx", gpuid);
     }
     SET_VALID(gpuinfo_device_name_valid, static_info->valid);
@@ -241,8 +232,7 @@ void gpuinfo_panfrost_populate_static_info(struct gpu_info *_gpu_info) {
       return;
 
     SET_GPUINFO_STATIC(static_info, n_exec_engines,
-		       get_number_engines(gpuid, static_info->n_shared_cores,
-					  core_features, thread_features));
+                       get_number_engines(gpuid, static_info->n_shared_cores, core_features, thread_features));
   }
 }
 

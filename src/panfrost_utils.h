@@ -19,6 +19,6 @@
 
 #include <stdint.h>
 
-const char * panfrost_parse_marketing_name(uint64_t gpu_id);
+const char *panfrost_parse_marketing_name(uint64_t gpu_id);
 unsigned int util_last_bit(unsigned int u);
 unsigned int get_number_engines(uint32_t gpu_id, int core_count, uint32_t core_features, uint32_t thread_features);

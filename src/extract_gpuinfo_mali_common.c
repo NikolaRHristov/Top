@@ -20,18 +20,15 @@
  */
 
 #include <assert.h>
-#include <errno.h>
 #include <dlfcn.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <xf86drm.h>
 
 #include "mali_common.h"
 
-enum mali_process_info_cache_valid {
-  mali_cache_engine_render_valid = 0,
-  mali_cache_process_info_cache_valid_count
-};
+enum mali_process_info_cache_valid { mali_cache_engine_render_valid = 0, mali_cache_process_info_cache_valid_count };
 
 struct __attribute__((__packed__)) unique_cache_id {
   unsigned client_id;
@@ -47,10 +44,8 @@ struct mali_process_info_cache {
   UT_hash_handle hh;
 };
 
-bool mali_init_drm_funcs(struct drmFuncTable *drmFuncs,
-			 struct mali_gpu_state *state)
-{
-    state->libdrm_handle = dlopen("libdrm.so", RTLD_LAZY);
+bool mali_init_drm_funcs(struct drmFuncTable *drmFuncs, struct mali_gpu_state *state) {
+  state->libdrm_handle = dlopen("libdrm.so", RTLD_LAZY);
   if (!state->libdrm_handle)
     state->libdrm_handle = dlopen("libdrm.so.2", RTLD_LAZY);
   if (!state->libdrm_handle)
@@ -114,15 +109,12 @@ init_error_clean_exit:
   return false;
 }
 
-void mali_deinit_drm(struct mali_gpu_state *state)
-{
+void mali_deinit_drm(struct mali_gpu_state *state) {
   dlclose(state->libdrm_handle);
   state->libdrm_handle = NULL;
 }
 
-void mali_shutdown_common(struct mali_gpu_state *state,
-			  struct drmFuncTable *funcs)
-{
+void mali_shutdown_common(struct mali_gpu_state *state, struct drmFuncTable *funcs) {
   for (unsigned i = 0; i < state->mali_gpu_count; ++i) {
     struct gpu_info_mali *current = &state->gpu_infos[i];
     funcs->drmFreeVersion(current->drmVersion);
@@ -144,10 +136,7 @@ void mali_shutdown_common(struct mali_gpu_state *state,
   }
 }
 
-const char *mali_common_last_error_string(struct mali_gpu_state *state,
-					  const char *drivername,
-					  char error_str[])
-{
+const char *mali_common_last_error_string(struct mali_gpu_state *state, const char *drivername, char error_str[]) {
   if (state->local_error_string) {
     return state->local_error_string;
   } else if (state->last_libdrm_return_status < 0) {
@@ -168,10 +157,9 @@ const char *mali_common_last_error_string(struct mali_gpu_state *state,
   } else {
 
     int ret = snprintf(error_str, MAX_ERR_STRING_LEN,
-		       "An unanticipated error occurred while accessing %s information\n",
-		       drivername);
+                       "An unanticipated error occurred while accessing %s information\n", drivername);
     if (ret >= MAX_ERR_STRING_LEN)
-      error_str[MAX_ERR_STRING_LEN - 1]  = '\0';
+      error_str[MAX_ERR_STRING_LEN - 1] = '\0';
     return error_str;
   }
 }
@@ -208,14 +196,9 @@ static void authenticate_drm(int fd, struct drmFuncTable *funcs) {
   fprintf(stderr, "Failed to authenticate to DRM; XCB authentication unimplemented\n");
 }
 
-bool mali_common_get_device_handles(struct mali_gpu_state *state,
-				    struct drmFuncTable *funcs,
-				    struct gpu_vendor *vendor,
-				    processinfo_fdinfo_callback callback,
-				    struct list_head *devices, unsigned *count,
-				    bool (*handle_model) (struct gpu_info_mali *),
-				    enum mali_version version)
-{
+bool mali_common_get_device_handles(struct mali_gpu_state *state, struct drmFuncTable *funcs, struct gpu_vendor *vendor,
+                                    processinfo_fdinfo_callback callback, struct list_head *devices, unsigned *count,
+                                    bool (*handle_model)(struct gpu_info_mali *), enum mali_version version) {
   if (!state->libdrm_handle || version >= MALI_VERSIONS)
     return false;
 
@@ -280,9 +263,9 @@ bool mali_common_get_device_handles(struct mali_gpu_state *state,
 
     if (handle_model) {
       if (!handle_model(&state->gpu_infos[state->mali_gpu_count])) {
-              funcs->drmFreeVersion(ver);
-              close(fd);
-              continue;
+        funcs->drmFreeVersion(ver);
+        close(fd);
+        continue;
       }
     }
 
@@ -298,25 +281,19 @@ bool mali_common_get_device_handles(struct mali_gpu_state *state,
 uint64_t parse_memory_multiplier(const char *str) {
   if (strcmp(str, " B") == 0) {
     return 1;
-  }
-  else if (strcmp(str, " KiB") == 0 || strcmp(str, " kB") == 0) {
+  } else if (strcmp(str, " KiB") == 0 || strcmp(str, " kB") == 0) {
     return 1024;
-  }
-  else if (strcmp(str, " MiB") == 0) {
+  } else if (strcmp(str, " MiB") == 0) {
     return 1024 * 1024;
-  }
-  else if (strcmp(str, " GiB") == 0) {
+  } else if (strcmp(str, " GiB") == 0) {
     return 1024 * 1024 * 1024;
   }
 
   return 1;
 }
 
-void mali_common_refresh_dynamic_info(struct gpuinfo_dynamic_info *dynamic_info,
-				      struct mali_gpu_state *state,
-				      const char *meminfo_total,
-				      const char *meminfo_available)
-{
+void mali_common_refresh_dynamic_info(struct gpuinfo_dynamic_info *dynamic_info, struct mali_gpu_state *state,
+                                      const char *meminfo_total, const char *meminfo_available) {
   RESET_ALL(dynamic_info->valid);
 
   rewind(state->meminfo_file);
@@ -354,8 +331,7 @@ void mali_common_refresh_dynamic_info(struct gpuinfo_dynamic_info *dynamic_info,
       mem_int *= parse_memory_multiplier(endptr);
       if (is_total) {
         mem_total = mem_int;
-      }
-      else if (is_available) {
+      } else if (is_available) {
         mem_available = mem_int;
       }
       ++keys_acquired;
@@ -394,13 +370,9 @@ void mali_common_get_running_processes(struct gpu_info *_gpu_info, enum mali_ver
   swap_process_cache_for_next_update(gpu_info);
 }
 
-void mali_common_parse_fdinfo_handle_cache(struct gpu_info_mali *gpu_info,
-					   struct gpu_process *process_info,
-					   nvtop_time current_time,
-					   uint64_t total_cycles,
-					   unsigned cid,
-					   bool engine_count)
-{
+void mali_common_parse_fdinfo_handle_cache(struct gpu_info_mali *gpu_info, struct gpu_process *process_info,
+                                           nvtop_time current_time, uint64_t total_cycles, unsigned cid,
+                                           bool engine_count) {
   struct mali_process_info_cache *cache_entry;
   struct unique_cache_id ucid = {.client_id = cid, .pid = process_info->pid};
 
@@ -446,12 +418,9 @@ void mali_common_parse_fdinfo_handle_cache(struct gpu_info_mali *gpu_info,
   HASH_ADD_CLIENT(gpu_info->current_update_process_cache, cache_entry);
 }
 
-bool mali_common_parse_drm_fdinfo(struct gpu_info *info, FILE *fdinfo_file,
-				  struct gpu_process *process_info,
-				  struct gpuinfo_dynamic_info *dynamic_info,
-				  check_fdinfo_keys match_keys,
-				  struct fdinfo_data *fid)
-{
+bool mali_common_parse_drm_fdinfo(struct gpu_info *info, FILE *fdinfo_file, struct gpu_process *process_info,
+                                  struct gpuinfo_dynamic_info *dynamic_info, check_fdinfo_keys match_keys,
+                                  struct fdinfo_data *fid) {
   static char *line = NULL;
   static size_t line_buf_size = 0;
   uint64_t total_time = 0;
@@ -475,7 +444,7 @@ bool mali_common_parse_drm_fdinfo(struct gpu_info *info, FILE *fdinfo_file,
       if (strcmp(val, info->vendor->name)) {
         return false;
       }
-    } else if(!strcmp(key, drm_client_id)) {
+    } else if (!strcmp(key, drm_client_id)) {
       char *endptr;
       fid->cid = strtoul(val, &endptr, 10);
       if (*endptr)

@@ -23,7 +23,7 @@
 #include "nvtop/info_messages.h"
 
 void get_info_messages(struct list_head *devices, unsigned *num_messages, const char ***messages) {
-  (void) devices;
-  (void) messages;
+  (void)devices;
+  (void)messages;
   *num_messages = 0;
 }
